@@ -12,17 +12,19 @@ This project is a React-based admin dashboard application with a sidebar navigat
 
 ## Project Structure
 
+```
 src/
 ├── components/
-│ ├── Header.jsx
-│ └── Sidebar.jsx
+│   ├── Header.jsx
+│   └── Sidebar.jsx
 ├── pages/
-│ └── BrojSJ.jsx
+│   └── BrojSJ.jsx
 ├── css/
-│ └── sidebar.css
+│   └── sidebar.css
 ├── App.jsx
 ├── main.jsx
 └── index.css
+```
 
 ## Setup and Installation
 
