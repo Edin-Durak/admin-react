@@ -1,8 +1,69 @@
-# React + Vite
+# Admin Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a React-based admin dashboard application with a sidebar navigation, dynamic content rendering, and a CRUD interface for managing "BrojSJ" entries.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Responsive sidebar navigation
+- Dynamic content rendering based on selected section
+- CRUD operations for "BrojSJ" entries
+- Form validation using Formik and Yup
+- Bootstrap styling for a clean, modern UI
+
+## Project Structure
+
+src/
+├── components/
+│ ├── Header.jsx
+│ └── Sidebar.jsx
+├── pages/
+│ └── BrojSJ.jsx
+├── css/
+│ └── sidebar.css
+├── App.jsx
+├── main.jsx
+└── index.css
+
+## Setup and Installation
+
+1. Clone the repository
+2. Install dependencies:
+   ```
+   npm install
+   ```
+3. Start the development server:
+   ```
+   npm run dev
+   ```
+
+## Dependencies
+
+- React
+- React Bootstrap
+- Formik
+- Yup
+- Font Awesome
+
+## Usage
+
+### Sidebar Navigation
+
+The sidebar allows users to switch between different sections of the dashboard. It also includes a dropdown to select different camps.
+
+### BrojSJ Page
+
+This page demonstrates CRUD operations:
+
+- Add new entries
+- Edit existing entries
+- Delete entries
+- View all entries in a table format
+
+## Customization
+
+- Modify `src/components/Sidebar.jsx` to add or remove navigation items
+- Add new pages in the `src/pages/` directory and update `App.jsx` to include them in the routing
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
