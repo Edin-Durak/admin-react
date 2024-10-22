@@ -1,0 +1,7 @@
+.sidebar-heading {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.448);
+}
+#sidebar-wrapper .nav-item:hover {
+  background-color: lightgray;
+}

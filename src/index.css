@@ -1,0 +1,84 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+/* Custom styles for the dashboard */
+#wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
+#sidebar-wrapper {
+  min-width: 250px;
+  max-width: 250px;
+  height: 100vh;
+}
+
+#page-content-wrapper {
+  width: 100%;
+}
+
+.sidebar-heading {
+  padding: 1rem;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
+/* Add this to styles.css */
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: -250px;
+}
+
+#sidebar-wrapper {
+  transition: margin 0.3s;
+}
+
+#page-content-wrapper {
+  transition: margin 0.3s;
+}
+
+/* For smaller screens, set the sidebar width and hide the text */
+#sidebar-wrapper {
+  width: 250px;
+  transition: all 0.3s;
+}
+
+@media (max-width: 991.98px) {
+  #sidebar-wrapper {
+    width: 70px;
+    margin-left: -250px;
+  }
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: -200px;
+  }
+  #sidebar-wrapper .sidebar-heading {
+    display: none;
+  }
+  #sidebar-wrapper .nav-link {
+    padding: 20px 15px;
+    text-align: right;
+  }
+  #sidebar-wrapper .nav-link i {
+    font-size: 1.5rem;
+    text-align: right;
+  }
+  #sidebar-wrapper .nav-link span {
+    display: none;
+  }
+}
+
+/* For larger screens, show the full sidebar with text */
+@media (min-width: 992px) {
+  #sidebar-wrapper .nav-link span {
+    display: inline;
+  }
+}

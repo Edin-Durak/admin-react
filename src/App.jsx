@@ -1,0 +1,49 @@
+import React, { useState } from "react";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import BrojSJ from "./pages/BrojSJ"; // Import your new page
+import "./index.css";
+
+const App = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [currentSection, setCurrentSection] = useState("home"); // Track the selected section
+
+  // Function to toggle sidebar open/close state
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  // Function to render content based on the selected section
+  const renderContent = () => {
+    switch (currentSection) {
+      case "home":
+        return <h1>Home Content</h1>;
+      case "brojSJ":
+        return <BrojSJ />; // Render BrojSJ page
+      case "facilities":
+        return <h1>Facilities Content</h1>;
+      case "bookings":
+        return <h1>Bookings Content</h1>;
+      default:
+        return <h1>Home Content</h1>;
+    }
+  };
+
+  return (
+    <div className={`d-flex ${isSidebarOpen ? "" : "toggled"}`} id="wrapper">
+      <Sidebar onSectionChange={setCurrentSection} />{" "}
+      {/* Pass section change handler */}
+      <div id="page-content-wrapper">
+        <Header toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+        <main className="container-fluid">
+          <div className="container-fluid">
+            {renderContent()}{" "}
+            {/* Dynamically render content based on the section */}
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default App;
