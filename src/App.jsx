@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import BrojSJ from "./pages/BrojSJ"; // Import your new page
+import Home from "./pages/Home";
 import "./index.css";
 
 const App = () => {
@@ -17,7 +18,7 @@ const App = () => {
   const renderContent = () => {
     switch (currentSection) {
       case "home":
-        return <h1>Home Content</h1>;
+        return <Home />;
       case "brojSJ":
         return <BrojSJ />; // Render BrojSJ page
       case "facilities":
@@ -25,7 +26,7 @@ const App = () => {
       case "bookings":
         return <h1>Bookings Content</h1>;
       default:
-        return <h1>Home Content</h1>;
+        return <Home />;
     }
   };
 
@@ -35,7 +36,11 @@ const App = () => {
       {/* Pass section change handler */}
       <div id="page-content-wrapper">
         <Header toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
-        <main className="container-fluid">
+        <main
+          className={`container-fluid ${
+            currentSection === "home" ? "home" : ""
+          }`}
+        >
           <div className="container-fluid">
             {renderContent()}{" "}
             {/* Dynamically render content based on the section */}

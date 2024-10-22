@@ -1,0 +1,36 @@
+.home {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../assets/images/camp-image.jpg");
+  width: 100%;
+  height: 50vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-mask-image: url("../assets/images/mask.svg");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: 40% bottom;
+  -webkit-mask-size: 250%;
+
+  .home-container {
+    padding: 20px;
+    color: white;
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    li {
+      position: relative;
+      padding-left: 30px;
+      margin-bottom: 10px;
+    }
+
+    li::before {
+      content: "\2713"; /* Unicode character for checkmark */
+      position: absolute;
+      left: 0;
+      color: #4caf50; /* Green color for the checkmark */
+      font-weight: bold;
+    }
+  }
+}

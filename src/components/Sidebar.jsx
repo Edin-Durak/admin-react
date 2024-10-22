@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../css/sidebar.css";
-
+import "../css/main.css";
 const Sidebar = ({ onSectionChange }) => {
   const [selectedCamp, setSelectedCamp] = useState(""); // Initially empty
   const [camps, setCamps] = useState(["Camp A", "Camp B", "Camp C"]); // Placeholder camp names
@@ -28,7 +28,7 @@ const Sidebar = ({ onSectionChange }) => {
           {/* Dropdown Toggle Button */}
           <div className="dropdown">
             <button
-              className="btn btn-outline-secondary dropdown-toggle"
+              className="btn btn-outline-primary dropdown-toggle"
               type="button"
               id="campDropdown"
               data-bs-toggle="dropdown"

@@ -1,0 +1,28 @@
+.header {
+  height: 4rem;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.448);
+  position: sticky;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  z-index: 1000;
+
+  #menu-toggle {
+    background-color: var(--primary-color);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+    width: 35px;
+    height: 35px;
+  }
+  #menu-toggle:hover {
+    background-color: var(--primary-color);
+    opacity: 0.9;
+    border-radius: 50%;
+  }
+  #menu-toggle:focus {
+    background-color: var(--primary-color);
+    opacity: 0.9;
+    border-radius: 50%;
+  }
+}

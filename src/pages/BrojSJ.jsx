@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Modal, Form, InputGroup, Row, Col } from "react-bootstrap";
 import * as yup from "yup";
 import { Formik } from "formik";
-
+import "../css/main.css";
 const schema = yup.object().shape({
   broj: yup.string().required("Broj is required"),
   idMapa: yup.string().required("ID Mapa is required"),
