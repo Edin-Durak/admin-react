@@ -6,7 +6,7 @@ This project is a React-based admin dashboard application with a sidebar navigat
 
 - Responsive sidebar navigation
 - Dynamic content rendering based on selected section
-- CRUD operations for "BrojSJ" entries
+- CRUD operations for "BrojSJ" and "VrstaSJ" entries
 - Form validation using Formik and Yup
 - Bootstrap styling for a clean, modern UI
 
@@ -19,6 +19,7 @@ src/
 │   └── Sidebar.jsx
 ├── pages/
 │   └── BrojSJ.jsx
+│   └── VrstaSJ.jsx
 ├── css/
 │   └── sidebar.css
 ├── App.jsx
@@ -52,9 +53,9 @@ src/
 
 The sidebar allows users to switch between different sections of the dashboard. It also includes a dropdown to select different camps.
 
-### BrojSJ Page
+### BrojSJ Page and VrstaSJ Page
 
-This page demonstrates CRUD operations:
+These pages demonstrate CRUD operations:
 
 - Add new entries
 - Edit existing entries
