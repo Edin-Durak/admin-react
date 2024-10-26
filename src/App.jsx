@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import BrojSJ from "./pages/BrojSJ"; // Import your new page
+import VrstaSJ from "./pages/VrstaSJ";
 import Home from "./pages/Home";
 import "./index.css";
 
@@ -22,7 +23,7 @@ const App = () => {
       case "brojSJ":
         return <BrojSJ />; // Render BrojSJ page
       case "facilities":
-        return <h1>Facilities Content</h1>;
+        return <VrstaSJ />;
       case "bookings":
         return <h1>Bookings Content</h1>;
       default:

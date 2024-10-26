@@ -83,7 +83,7 @@ const Sidebar = ({ onSectionChange }) => {
               aria-label="Facilities"
             >
               <i className="fas fa-tools"></i>
-              <span> Facilities</span>
+              <span> Vrste smještajnih jedinica</span>
             </a>
           </li>
           <li className="nav-item">
