@@ -1,11 +1,14 @@
 .header {
-  height: 4rem;
+  height: auto;
   border-bottom: 1px solid rgba(128, 128, 128, 0.448);
   position: sticky;
   top: 0;
   left: 0;
-  overflow-y: auto;
+
   z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
   #menu-toggle {
     background-color: var(--primary-color);
@@ -24,5 +27,34 @@
     background-color: var(--primary-color);
     opacity: 0.9;
     border-radius: 50%;
+  }
+  .header-heading {
+    gap: 1rem;
+    position: relative;
+  }
+
+  .dropdown-toggle {
+    background-color: var(--primary-color);
+    border: none;
+    color: white !important;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    width: 35px;
+    height: 35px;
+  }
+  .dropdown-toggle:hover,
+  .dropdown-toggle:focus {
+    background-color: var(--primary-color);
+    opacity: 0.9;
+    border-radius: 50%;
+    outline: var(--primary-color);
+  }
+
+  .dropdown-item:hover {
+    background-color: var(--primary-color);
+    opacity: 0.9;
+  }
+  .navbar-brand img {
+    height: 3rem;
   }
 }

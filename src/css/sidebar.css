@@ -7,35 +7,7 @@
   overflow-y: auto;
   z-index: 1000;
   box-shadow: 4px 0 6px -1px rgba(0, 0, 0, 0.1);
-
-  .sidebar-heading {
-    margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.448);
-    height: 4rem;
-  }
-
-  .dropdown-toggle {
-    background-color: var(--primary-color);
-    border: none;
-    color: white !important;
-    transition: all 0.3s ease;
-    border-radius: 5px;
-    width: 35px;
-    height: 35px;
-  }
-  .dropdown-toggle:hover,
-  .dropdown-toggle:focus {
-    background-color: var(--primary-color);
-    opacity: 0.9;
-    border-radius: 50%;
-    outline: var(--primary-color);
-  }
-
-  .dropdown-item:hover {
-    background-color: var(--primary-color);
-    opacity: 0.9;
-  }
-
+  padding-top: 4.5rem;
   .nav-item:hover {
     background-color: var(--primary-color);
     opacity: 0.9;
