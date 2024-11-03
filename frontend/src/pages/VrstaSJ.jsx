@@ -11,8 +11,8 @@ import {
 } from "react-bootstrap";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { vrstaSJAPI } from "../services/api";
 
-// Validation schema for form fields
 const schema = yup.object().shape({
   naziv: yup.string().required("Naziv is required"),
   vrsta: yup.string().required("Vrsta is required"),
@@ -41,30 +41,58 @@ const VrstaSJ = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
-    // Load data from localStorage when component mounts
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setIsLoading(true);
     try {
-      const savedData = localStorage.getItem("vrstaSJData");
-      if (savedData) {
-        const parsedData = JSON.parse(savedData);
-        setData(parsedData);
-      }
+      const response = await vrstaSJAPI.getAll();
+      setData(response.data);
     } catch (error) {
-      console.error("Error loading data from localStorage:", error);
+      console.error("Error loading data:", error);
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  };
 
-  useEffect(() => {
-    // Save data to localStorage whenever it changes
-    if (!isLoading) {
+  const handleShow = () => setShowModal(true);
+  const handleClose = () => {
+    setShowModal(false);
+    setEditIndex(null);
+  };
+
+  const handleSave = async (values) => {
+    try {
+      if (editIndex !== null) {
+        const itemToUpdate = data[editIndex];
+        await vrstaSJAPI.update(itemToUpdate.id, values);
+      } else {
+        await vrstaSJAPI.create(values);
+      }
+      await loadData();
+      handleClose();
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
+  };
+
+  const handleEdit = (index) => {
+    setEditIndex(index);
+    handleShow();
+  };
+
+  const handleDelete = async (index) => {
+    if (window.confirm("Jeste li sigurni da želite obrisati ovaj zapis?")) {
       try {
-        localStorage.setItem("vrstaSJData", JSON.stringify(data));
+        const itemToDelete = data[index];
+        await vrstaSJAPI.delete(itemToDelete.id);
+        await loadData();
       } catch (error) {
-        console.error("Error saving data to localStorage:", error);
+        console.error("Error deleting data:", error);
       }
     }
-  }, [data, isLoading]);
+  };
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -77,35 +105,12 @@ const VrstaSJ = () => {
     setCurrentPage(1);
   };
 
-  const handleShow = () => setShowModal(true);
-  const handleClose = () => {
-    setShowModal(false);
-    setEditIndex(null);
-  };
-
-  const handleSave = (values) => {
-    if (editIndex !== null) {
-      const updatedData = [...data];
-      updatedData[editIndex] = values;
-      setData(updatedData);
-    } else {
-      setData((prevData) => [...prevData, values]);
-    }
-    handleClose();
-  };
-
-  const handleEdit = (index) => {
-    setEditIndex(index);
-    handleShow();
-  };
-
-  const handleDelete = (index) => {
-    setData((prevData) => prevData.filter((_, i) => i !== index));
-  };
-
   const initialValues =
     editIndex !== null
-      ? data[editIndex]
+      ? {
+          ...data[editIndex],
+          slike: data[editIndex].slike || Array(8).fill(""),
+        }
       : {
           naziv: "",
           vrsta: "",
@@ -117,8 +122,8 @@ const VrstaSJ = () => {
           bookingCjenik: "",
           maxOdraslih: "",
           maxDjece: "",
-          boja: "#ffffff", // Default color
-          slike: Array(8).fill(""), // Array for 8 images
+          boja: "#ffffff",
+          slike: Array(8).fill(""),
         };
 
   return (
@@ -136,7 +141,7 @@ const VrstaSJ = () => {
           <div className="d-flex justify-content-between align-items-center mt-3 mb-3">
             <div>
               <label htmlFor="itemsPerPage" className="me-2">
-                Broj stavki po stranici:
+                Broj vrsta po stranici:
               </label>
               <select
                 id="itemsPerPage"
@@ -156,13 +161,12 @@ const VrstaSJ = () => {
             </div>
           </div>
 
-          <Table className="mt-4">
+          <table className="table">
             <thead>
               <tr>
                 <th>Naziv</th>
-                <th>Vrsta</th>
-                <th>Oznaka</th>
-                <th>Akcije</th>
+                <th>Opis</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -170,38 +174,37 @@ const VrstaSJ = () => {
                 currentItems.map((item, index) => (
                   <tr key={index}>
                     <td>{item.naziv}</td>
-                    <td>{item.vrsta}</td>
-                    <td>{item.oznaka}</td>
+                    <td>{item.opis}</td>
                     <td>
                       <Button
                         variant="primary"
                         size="sm"
-                        onClick={() => handleEdit(indexOfFirstItem + index)}
+                        onClick={() => handleEdit(index)}
                       >
                         <i className="fas fa-edit"></i>{" "}
-                        <span className="d-none d-lg-inline">Modifikuj</span>
+                        <span className="d-none d-lg-inline">Edit</span>
                       </Button>
                       <Button
                         variant="danger"
                         size="sm"
                         className="ms-2"
-                        onClick={() => handleDelete(indexOfFirstItem + index)}
+                        onClick={() => handleDelete(index)}
                       >
                         <i className="fas fa-trash-alt"></i>{" "}
-                        <span className="d-none d-lg-inline">Obriši</span>
+                        <span className="d-none d-lg-inline">Delete</span>
                       </Button>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4" className="text-center">
+                  <td colSpan="3" className="text-center">
                     Nema podataka
                   </td>
                 </tr>
               )}
             </tbody>
-          </Table>
+          </table>
 
           <Pagination className="justify-content-center">
             <Pagination.First
@@ -235,7 +238,6 @@ const VrstaSJ = () => {
         </>
       )}
 
-      {/* Modal for adding/editing entries */}
       <Modal show={showModal} onHide={handleClose}>
         <Formik
           validationSchema={schema}

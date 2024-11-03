@@ -12,6 +12,8 @@ import * as yup from "yup";
 import { Formik } from "formik";
 import "../css/main.css";
 import "../css/brojSJ.css";
+import { brojSJAPI } from "../services/api";
+
 const schema = yup.object().shape({
   broj: yup.string().required("Broj is required"),
   idMapa: yup.string().required("ID na mapi is required"),
@@ -51,30 +53,20 @@ const BrojSJ = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
-    // Load data from localStorage when component mounts
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setIsLoading(true);
     try {
-      const savedData = localStorage.getItem("brojSJData");
-      if (savedData) {
-        const parsedData = JSON.parse(savedData);
-        setData(parsedData);
-      }
+      const response = await brojSJAPI.getAll();
+      setData(response.data);
     } catch (error) {
-      console.error("Error loading data from localStorage:", error);
+      console.error("Error loading data:", error);
     } finally {
       setIsLoading(false);
     }
-  }, []);
-
-  useEffect(() => {
-    // Save data to localStorage whenever it changes
-    if (!isLoading) {
-      try {
-        localStorage.setItem("brojSJData", JSON.stringify(data));
-      } catch (error) {
-        console.error("Error saving data to localStorage:", error);
-      }
-    }
-  }, [data, isLoading]);
+  };
 
   const handleShow = () => setShowModal(true);
   const handleClose = () => {
@@ -82,15 +74,19 @@ const BrojSJ = () => {
     setEditIndex(null); // Reset on close
   };
 
-  const handleSave = (values) => {
-    if (editIndex !== null) {
-      const updatedData = [...data];
-      updatedData[editIndex] = values;
-      setData(updatedData);
-    } else {
-      setData((prevData) => [...prevData, values]);
+  const handleSave = async (values) => {
+    try {
+      if (editIndex !== null) {
+        const itemToUpdate = data[editIndex];
+        await brojSJAPI.update(itemToUpdate.id, values);
+      } else {
+        await brojSJAPI.create(values);
+      }
+      await loadData();
+      handleClose();
+    } catch (error) {
+      console.error("Error saving data:", error);
     }
-    handleClose();
   };
 
   const handleEdit = (index) => {
@@ -98,9 +94,16 @@ const BrojSJ = () => {
     handleShow();
   };
 
-  const handleDelete = (index) => {
-    const updatedData = data.filter((_, i) => i !== index);
-    setData(updatedData);
+  const handleDelete = async (index) => {
+    if (window.confirm("Jeste li sigurni da želite obrisati ovaj zapis?")) {
+      try {
+        const itemToDelete = data[index];
+        await brojSJAPI.delete(itemToDelete.id);
+        await loadData();
+      } catch (error) {
+        console.error("Error deleting data:", error);
+      }
+    }
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;

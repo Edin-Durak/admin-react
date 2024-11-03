@@ -7,9 +7,13 @@
   background-repeat: no-repeat;
   background-position: center;
   -webkit-mask-image: url("../assets/images/mask.svg");
+  mask-image: url("../assets/images/mask.svg");
   -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
   -webkit-mask-position: 40% bottom;
+  mask-position: 40% bottom;
   -webkit-mask-size: 250%;
+  mask-size: 250%;
 
   .home-container {
     padding: 20px;
