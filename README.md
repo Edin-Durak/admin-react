@@ -19,10 +19,16 @@ src/
 │   └── Sidebar.jsx
 ├── pages/
 │   └── BrojSJ.jsx
+│   └── Home.jsx
 │   └── VrstaSJ.jsx
 ├── css/
+│   └── main.css
+│   └── brojsSJ.css
+│   └── header.css
+│   └── home.css
 │   └── sidebar.css
 ├── App.jsx
+├── App.css
 ├── main.jsx
 └── index.css
 ```
@@ -31,13 +37,20 @@ src/
 
 1. Clone the repository
 2. Install dependencies:
-   ```
-   npm install
-   ```
+
+```
+
+npm install
+
+```
+
 3. Start the development server:
-   ```
-   npm run dev
-   ```
+
+```
+
+npm run dev
+
+```
 
 ## Dependencies
 
@@ -70,3 +83,7 @@ These pages demonstrate CRUD operations:
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
+
+```
+
+```
