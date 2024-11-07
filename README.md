@@ -1,88 +1,190 @@
 # Admin Dashboard
 
-This project is a React-based admin dashboard application with a sidebar navigation, dynamic content rendering, and a CRUD interface for managing "BrojSJ" entries.
+Full-stack admin dashboard application built with React (frontend) and Node.js/Express (backend) for managing camping accommodations.
 
-## Features
+## Prerequisites
 
-- Responsive sidebar navigation
-- Dynamic content rendering based on selected section
-- CRUD operations for "BrojSJ" and "VrstaSJ" entries
-- Form validation using Formik and Yup
-- Bootstrap styling for a clean, modern UI
+Before you begin, ensure you have installed:
+
+- [Node.js](https://nodejs.org/) (v14 or higher)
+- [MySQL](https://www.mysql.com/) (v8.0 or higher)
+- [XAMPP](https://www.apachefriends.org/) (if you prefer using phpMyAdmin)
 
 ## Project Structure
 
 ```
-src/
-├── components/
-│   ├── Header.jsx
-│   └── Sidebar.jsx
-├── pages/
-│   └── BrojSJ.jsx
-│   └── Home.jsx
-│   └── VrstaSJ.jsx
-├── css/
-│   └── main.css
-│   └── brojsSJ.css
-│   └── header.css
-│   └── home.css
-│   └── sidebar.css
-├── App.jsx
-├── App.css
-├── main.jsx
-└── index.css
+admin-dashboard/
+├── frontend/          # React frontend application
+├── backend/           # Node.js/Express backend application
+└── database/          # SQL scripts for database setup
 ```
 
-## Setup and Installation
+## Installation & Setup
 
-1. Clone the repository
+### 1. Database Setup
+
+1. Create a new MySQL database:
+
+```sql
+CREATE DATABASE camping_admin;
+```
+
+2. Import the database structure:
+
+- Open phpMyAdmin (http://localhost/phpmyadmin)
+- Select the `camping_admin` database
+- Import the SQL file from `database/schema.sql`
+
+### 2. Backend Setup
+
+1. Navigate to the backend directory:
+
+```bash
+cd backend
+```
+
 2. Install dependencies:
 
-```
-
+```bash
 npm install
-
 ```
 
-3. Start the development server:
+3. Create a `.env` file in the backend directory:
 
+```env
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=your_password
+DB_NAME=camping_admin
+PORT=5000
 ```
 
+4. Start the backend server:
+
+```bash
+npm start
+```
+
+The backend should now be running on http://localhost:5000
+
+### 3. Frontend Setup
+
+1. Navigate to the frontend directory:
+
+```bash
+cd frontend
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Create a `.env` file in the frontend directory:
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+4. Start the frontend development server:
+
+```bash
 npm run dev
-
 ```
 
-## Dependencies
+The frontend should now be running on http://localhost:5173
 
-- React
-- React Bootstrap
-- Formik
-- Yup
-- Font Awesome
+## Features
 
-## Usage
+- **Accommodation Management**
 
-### Sidebar Navigation
+  - CRUD operations for accommodation units
+  - Type management
+  - Image upload functionality
 
-The sidebar allows users to switch between different sections of the dashboard. It also includes a dropdown to select different camps.
+- **Responsive Design**
+  - Mobile-friendly interface
+  - Adaptive sidebar
 
-### BrojSJ Page and VrstaSJ Page
+## API Endpoints
 
-These pages demonstrate CRUD operations:
+### Accommodation Units
 
-- Add new entries
-- Edit existing entries
-- Delete entries
-- View all entries in a table format
+- GET `/api/brojsj` - Get all units
+- POST `/api/brojsj` - Create new unit
+- PUT `/api/brojsj/:id` - Update unit
+- DELETE `/api/brojsj/:id` - Delete unit
 
-## Customization
+### Accommodation Types
 
-- Modify `src/components/Sidebar.jsx` to add or remove navigation items
-- Add new pages in the `src/pages/` directory and update `App.jsx` to include them in the routing
+- GET `/api/vrstasj` - Get all types
+- POST `/api/vrstasj` - Create new type
+- PUT `/api/vrstasj/:id` - Update type
+- DELETE `/api/vrstasj/:id` - Delete type
+
+## Common Issues & Solutions
+
+1. **Database Connection Error**
+
+   - Verify MySQL is running
+   - Check database credentials in `.env`
+   - Ensure the database exists
+
+2. **CORS Issues**
+
+   - Backend includes CORS configuration
+   - Check frontend API URL in `.env`
+
+3. **Port Already in Use**
+   - Change port in backend `.env`
+   - Update frontend API URL accordingly
+
+## Development
+
+### Adding New Features
+
+1. Backend:
+
+- Add routes in `backend/routes/`
+- Create controllers in `backend/controllers/`
+- Define models in `backend/models/`
+
+2. Frontend:
+
+- Add new pages in `frontend/src/pages/`
+- Create components in `frontend/src/components/`
+- Update routing in `App.jsx`
+
+## Deployment
+
+For production deployment:
+
+1. Backend:
+
+```bash
+cd backend
+npm run build
+```
+
+2. Frontend:
+
+```bash
+cd frontend
+npm run build
+```
+
+## Support
+
+For issues or questions, please:
+
+1. Check the common issues section
+2. Review backend logs
+3. Contact support at [your-email]
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is proprietary and confidential.
 
 ```
 
