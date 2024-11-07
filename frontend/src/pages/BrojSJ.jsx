@@ -13,6 +13,7 @@ import { Formik } from "formik";
 import "../css/main.css";
 import "../css/brojSJ.css";
 import { brojSJAPI } from "../services/api";
+import { vrstaSJAPI } from "../services/api";
 
 const schema = yup.object().shape({
   broj: yup.string().required("Broj is required"),
@@ -31,7 +32,7 @@ const schema = yup.object().shape({
     .required("Max broj djece is required")
     .positive()
     .integer(),
-  vrsta: yup.string().required("Vrsta is required"),
+  vrsta_sj_id: yup.number().required("Vrsta is required"),
   osuncanost: yup.string().required("Osuncanost is required"),
   podloga: yup.string().required("Podloga is required"),
   napomena: yup.string().optional(),
@@ -51,8 +52,19 @@ const BrojSJ = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [vrste, setVrste] = useState([]);
 
   useEffect(() => {
+    const loadVrste = async () => {
+      try {
+        const response = await vrstaSJAPI.getAll();
+        setVrste(response.data);
+      } catch (error) {
+        console.error("Error loading vrste:", error);
+      }
+    };
+
+    loadVrste();
     loadData();
   }, []);
 
@@ -76,16 +88,48 @@ const BrojSJ = () => {
 
   const handleSave = async (values) => {
     try {
+      const dataToSend = {
+        broj: values.broj,
+        idMapa: values.idMapa,
+        duzina: values.duzina,
+        sirina: values.sirina,
+        iskoristivaDuzina: values.iskoristivaDuzina,
+        iskoristivaSirina: values.iskoristivaSirina,
+        maxBrojOdraslih: Number(values.maxBrojOdraslih),
+        maxBrojDjece: Number(values.maxBrojDjece),
+        vrsta_sj_id: Number(values.vrsta_sj_id),
+        osuncanost: values.osuncanost,
+        podloga: values.podloga,
+        napomena: values.napomena || "",
+        wifi: Boolean(values.wifi),
+        parking: Boolean(values.parking),
+        struja6A: Boolean(values.struja6A),
+        struja10A: Boolean(values.struja10A),
+        struja16A: Boolean(values.struja16A),
+        prikljucakVode: Boolean(values.prikljucakVode),
+        odvodnja: Boolean(values.odvodnja),
+        dostupna: Boolean(values.dostupna),
+        samoNaUpit: Boolean(values.samoNaUpit),
+        pausl: Boolean(values.pausl),
+        noClick: Boolean(values.noClick),
+        header: Boolean(values.header),
+        nePrikazujBroj: Boolean(values.nePrikazujBroj),
+        panoramaSlika: values.panoramaSlika || "",
+        slike: values.slike || [],
+      };
+
+      console.log("Sending data:", dataToSend);
+
       if (editIndex !== null) {
         const itemToUpdate = data[editIndex];
-        await brojSJAPI.update(itemToUpdate.id, values);
+        await brojSJAPI.update(itemToUpdate.id, dataToSend);
       } else {
-        await brojSJAPI.create(values);
+        await brojSJAPI.create(dataToSend);
       }
       await loadData();
       handleClose();
     } catch (error) {
-      console.error("Error saving data:", error);
+      console.error("Error saving data:", error.response?.data || error);
     }
   };
 
@@ -129,7 +173,7 @@ const BrojSJ = () => {
         <p>Loading...</p>
       ) : (
         <>
-          <div className="d-flex justify-content-between align-items-center mt-3 mb-3">
+          <div className="d-flex justify-content-between align-items-center mt-3 mb-3 flex-wrap">
             <div>
               <label htmlFor="itemsPerPage" className="me-2">
                 Broj smještajnih jedinica po stranici:
@@ -155,10 +199,10 @@ const BrojSJ = () => {
           <table className="table">
             <thead>
               <tr>
-                <th>Broj</th>
+                <th className="d-none d-md-table-cell">Broj</th>
                 <th>ID Mapa</th>
                 <th>Vrsta</th>
-                <th>Osuncanost</th>
+                <th className="d-none d-lg-table-cell">Osuncanost</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -166,14 +210,20 @@ const BrojSJ = () => {
               {currentItems.length > 0 ? (
                 currentItems.map((item, index) => (
                   <tr key={index}>
-                    <td>{item.broj}</td>
+                    <td className="d-none d-md-table-cell">{item.broj}</td>
                     <td>{item.idMapa}</td>
-                    <td>{item.vrsta}</td>
-                    <td>{item.osuncanost}</td>
+                    <td>
+                      {vrste.find((v) => v.id === item.vrsta_sj_id)?.naziv ||
+                        ""}
+                    </td>
+                    <td className="d-none d-md-table-cell">
+                      {item.osuncanost}
+                    </td>
                     <td>
                       <Button
                         variant="primary"
                         size="sm"
+                        className="mb-2 mb-md-0 me-2"
                         onClick={() => handleEdit(index)}
                       >
                         <i className="fas fa-edit"></i>{" "}
@@ -182,7 +232,7 @@ const BrojSJ = () => {
                       <Button
                         variant="danger"
                         size="sm"
-                        className="ms-2"
+                        className="mb-2 mb-md-0"
                         onClick={() => handleDelete(index)}
                       >
                         <i className="fas fa-trash-alt"></i>{" "}
@@ -250,7 +300,7 @@ const BrojSJ = () => {
                   iskoristivaSirina: "",
                   maxBrojOdraslih: "",
                   maxBrojDjece: "",
-                  vrsta: "",
+                  vrsta_sj_id: "",
                   osuncanost: "",
                   podloga: "",
                   panoramaSlika: "",
@@ -432,18 +482,20 @@ const BrojSJ = () => {
                   <Form.Group as={Col} controlId="validationFormikVrsta">
                     <Form.Label>Vrsta SJ</Form.Label>
                     <Form.Select
-                      name="vrsta"
-                      value={values.vrsta}
+                      name="vrsta_sj_id"
+                      value={values.vrsta_sj_id}
                       onChange={handleChange}
-                      isInvalid={touched.vrsta && !!errors.vrsta}
+                      isInvalid={touched.vrsta_sj_id && !!errors.vrsta_sj_id}
                     >
                       <option value="">Select Vrsta</option>
-                      <option value="Vrsta 1">Vrsta 1</option>
-                      <option value="Vrsta 2">Vrsta 2</option>
-                      {/* Dynamic data for vrstaSJ */}
+                      {vrste.map((vrsta) => (
+                        <option key={vrsta.id} value={vrsta.id}>
+                          {vrsta.naziv}
+                        </option>
+                      ))}
                     </Form.Select>
                     <Form.Control.Feedback type="invalid">
-                      {errors.vrsta}
+                      {errors.vrsta_sj_id}
                     </Form.Control.Feedback>
                   </Form.Group>
 

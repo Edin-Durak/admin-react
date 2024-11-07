@@ -3,13 +3,15 @@ import React from "react";
 import "../css/sidebar.css";
 import "../css/main.css";
 
-const Sidebar = ({ onSectionChange }) => {
+const Sidebar = ({ onSectionChange, activeSection }) => {
   return (
     <div className="d-flex" id="wrapper">
       <div className="bg-light border-right" id="sidebar-wrapper">
         {/* Navigation Menu */}
         <ul className="nav nav-pills flex-column mb-auto">
-          <li className="nav-item">
+          <li
+            className={`nav-item ${activeSection === "home" ? "active" : ""}`}
+          >
             <a
               href="#"
               className="nav-link text-dark"
@@ -17,10 +19,12 @@ const Sidebar = ({ onSectionChange }) => {
               aria-label="Home"
             >
               <i className="fas fa-home"></i>
-              <span> Home</span>
+              <span> Početna</span>
             </a>
           </li>
-          <li className="nav-item">
+          <li
+            className={`nav-item ${activeSection === "brojSJ" ? "active" : ""}`}
+          >
             <a
               href="#"
               className="nav-link text-dark"
@@ -31,7 +35,11 @@ const Sidebar = ({ onSectionChange }) => {
               <span> Smještajne jedinice</span>
             </a>
           </li>
-          <li className="nav-item">
+          <li
+            className={`nav-item ${
+              activeSection === "facilities" ? "active" : ""
+            }`}
+          >
             <a
               href="#"
               className="nav-link text-dark"
@@ -42,7 +50,11 @@ const Sidebar = ({ onSectionChange }) => {
               <span> Vrste smještajnih jedinica</span>
             </a>
           </li>
-          <li className="nav-item">
+          <li
+            className={`nav-item ${
+              activeSection === "bookings" ? "active" : ""
+            }`}
+          >
             <a
               href="#"
               className="nav-link text-dark"

@@ -8,8 +8,15 @@
   z-index: 1000;
   box-shadow: 4px 0 6px -1px rgba(0, 0, 0, 0.1);
   padding-top: 4.5rem;
-  .nav-item:hover {
-    background-color: var(--primary-color);
-    opacity: 0.9;
-  }
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background-color: var(--primary-color);
+  opacity: 0.9;
+}
+
+.nav-item.active .nav-link,
+.nav-item:hover .nav-link {
+  color: white !important; /* Override Bootstrap's text-dark */
 }

@@ -138,7 +138,7 @@ const VrstaSJ = () => {
         <p>Loading...</p>
       ) : (
         <>
-          <div className="d-flex justify-content-between align-items-center mt-3 mb-3">
+          <div className="d-flex justify-content-between align-items-center mt-3 mb-3 flex-wrap">
             <div>
               <label htmlFor="itemsPerPage" className="me-2">
                 Broj vrsta po stranici:
@@ -165,7 +165,8 @@ const VrstaSJ = () => {
             <thead>
               <tr>
                 <th>Naziv</th>
-                <th>Opis</th>
+                <th>Vrsta</th>
+                <th className="d-none d-md-table-cell">Booking ID</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -174,11 +175,13 @@ const VrstaSJ = () => {
                 currentItems.map((item, index) => (
                   <tr key={index}>
                     <td>{item.naziv}</td>
-                    <td>{item.opis}</td>
+                    <td>{item.vrsta}</td>
+                    <td className="d-none d-md-table-cell">{item.bookingId}</td>
                     <td>
                       <Button
                         variant="primary"
                         size="sm"
+                        className="mb-2 mb-md-0 me-2"
                         onClick={() => handleEdit(index)}
                       >
                         <i className="fas fa-edit"></i>{" "}
@@ -187,7 +190,7 @@ const VrstaSJ = () => {
                       <Button
                         variant="danger"
                         size="sm"
-                        className="ms-2"
+                        className="mb-2 mb-md-0"
                         onClick={() => handleDelete(index)}
                       >
                         <i className="fas fa-trash-alt"></i>{" "}

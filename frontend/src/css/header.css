@@ -57,4 +57,12 @@
   .navbar-brand img {
     height: 3rem;
   }
+  @media screen and (max-width: 450px) {
+    .navbar-brand img {
+      height: 2rem;
+    }
+    .dropdown-menu[data-bs-popper] {
+      left: -120px;
+    }
+  }
 }

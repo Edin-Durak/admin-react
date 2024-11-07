@@ -17,26 +17,14 @@ export const brojSJAPI = {
   getById: (id) => axios.get(`${API_URL}/brojsj/${id}`),
   create: async (data) => {
     try {
-      console.log("Sending data to API:", data);
       const response = await axios.post(`${API_URL}/brojsj`, data);
-      console.log("API response:", response);
       return response;
     } catch (error) {
-      console.error("API error:", error.response || error);
+      console.error("API error:", error.response?.data || error);
       throw error;
     }
   },
-  update: async (id, data) => {
-    try {
-      console.log("Updating data:", { id, data });
-      const response = await axios.put(`${API_URL}/brojsj/${id}`, data);
-      console.log("Update response:", response);
-      return response;
-    } catch (error) {
-      console.error("Update error:", error.response || error);
-      throw error;
-    }
-  },
+  update: (id, data) => axios.put(`${API_URL}/brojsj/${id}`, data),
   delete: (id) => axios.delete(`${API_URL}/brojsj/${id}`),
 };
 
